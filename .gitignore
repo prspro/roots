@@ -11,6 +11,9 @@
 # production
 /build
 
+#sensitive data
+/src/data/dataOri.js
+
 # misc
 .DS_Store
 .env.local
