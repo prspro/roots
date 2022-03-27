@@ -1,7 +1,6 @@
 import React from "react";
 import useTree from "./useTree.js";
 import "./tree.css";
-import classNames from "classnames";
 import Person from "../Person/Person";
 
 export default function Tree() {
@@ -36,6 +35,7 @@ export default function Tree() {
   };
 
   const renderTree = (currPerson) => {
+    console.log(currPerson.children);
     return (
       <Person
         key={currPerson.id}
@@ -49,6 +49,9 @@ export default function Tree() {
         })}
         parents={currPerson.parents.map((parent) => {
           return renderTree(parent);
+        })}
+        siblings={currPerson.siblings.map((sibling) => {
+          return renderTree(sibling);
         })}
       />
     );

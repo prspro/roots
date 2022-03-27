@@ -1,1 +1,5 @@
-
+.tree > .person > .person__siblings > .person__sibling--self,
+.tree > .person > .person__parents > .person__parent > .person > .person__siblings > .person__sibling--self
+{
+    padding: 15px;
+}

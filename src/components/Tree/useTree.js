@@ -1,4 +1,5 @@
 import { mainData } from "../../data/data";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function usePrepData() {
   const prepData = mainData.map((entry) => {
@@ -10,6 +11,32 @@ export default function usePrepData() {
       isProcessed: false,
     };
   });
+
+  const getSiblings = (dataArray, personID) => {
+    //copy data
+    const personDataList = dataArray.map((entry) => {
+      return { ...entry };
+    });
+
+    console.log(personDataList);
+
+
+    //define person index in data
+    const personIndex = personDataList.findIndex((person) => {
+      return person.id === personID;
+    });
+
+    const siblingslist = personDataList.filter((person) => {
+      return person.id !== personID &&
+        (person.parents.maman !== "" || person.parents.papa !== "") &&
+        (person.parents.maman === personDataList[personIndex].parents.maman ||
+        person.parents.papa === personDataList[personIndex].parents.papa)
+    });
+
+    return siblingslist.map((sibling) => {
+      return getDescendants(personDataList, sibling.id)
+    });
+  }
 
   const getDescendants = (dataArray, personID) => {
     //copy data
@@ -70,6 +97,8 @@ export default function usePrepData() {
         //add person's children to person
         currentPerson.children = [];
         currentPerson.parents = [];
+        currentPerson.siblings = [];
+
 
         if (personChildren.length > 0) {
           personChildren.forEach((child, idx) => {
@@ -113,6 +142,7 @@ export default function usePrepData() {
         currentPerson.isRootPerson = false;
         currentPerson.sex = personData.sex;
 
+
         //add person's parents list
         currentPerson.parents = [];
 
@@ -125,6 +155,8 @@ export default function usePrepData() {
 
         currentPerson.parents = personParents;
         currentPerson.children = [];
+
+        currentPerson.siblings = getSiblings(personDataList, personData.id);
 
         if (personParents.length > 0) {
           personParents.forEach((parent, idx) => {
@@ -143,21 +175,29 @@ export default function usePrepData() {
     return person;
   };
 
+  const siblingsList = getSiblings(
+    prepData,
+    "7f045a61-33f1-4f7d-8603-94fea371af61"
+  );
+
   const descendantTree = getDescendants(
     prepData,
-    "bab9f1dd-f0a7-4434-bd32-11ad74b3b2db"
+    "7f045a61-33f1-4f7d-8603-94fea371af61"
   );
 
   const ascendantTree = getAscendants(
     prepData,
-    "bab9f1dd-f0a7-4434-bd32-11ad74b3b2db"
+    "7f045a61-33f1-4f7d-8603-94fea371af61"
   );
 
   const fullTree = {
     ...descendantTree,
     parents: ascendantTree.parents,
     isRootPerson: true,
+    siblings: siblingsList
   };
+
+  console.log(fullTree);
 
   return {
     descendantTree,
