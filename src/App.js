@@ -1,10 +1,10 @@
 import "./App.css";
-import Tree from "./components/Tree/Tree";
+import Generations from "./components/Generations/Generations";
 
 function App() {
   return (
     <div className="App">
-      <Tree />
+      <Generations />
     </div>
   );
 }
