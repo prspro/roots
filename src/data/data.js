@@ -283,4 +283,31 @@ export const mainData = [
       step: [],
     },
   },
+  //Mary Queen
+  {
+    id: "407d8a28-4ac3-4dcb-1111-fc5c9b94b5aa",
+    sex: "male",
+    nameLatin: {
+      first: "Mary",
+      middle: "",
+      family: "Queen",
+    },
+    nameCyrillic: {
+      first: "Harry",
+      middle: "",
+      family: "Davis",
+    },
+    info: {
+      bDay: "",
+      about: "",
+      photo: {},
+    },
+    parents: {
+      native: {
+        maman: "",
+        papa: "407d8a28-4ac3-4dcb-ab49-fc5c9b94b5aa",
+      },
+      step: [],
+    },
+  },
 ];

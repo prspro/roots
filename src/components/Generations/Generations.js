@@ -7,15 +7,19 @@ const Generations = () => {
 
   return (
     <ul className="generations">
-      {generationsPersonList.map((generation, idx) => {
+      {generationsPersonList.map((generation, genIdx) => {
         return (
-          <li className="generations__item" key={idx}>
-            <span className="generations__number">{generationsKeyList[idx]}</span>
+          <li className="generations__item" key={genIdx}>
             <ul className="generation">
-              {generation.map((person, idx) => {
+              {generation.map((person, personIdx) => {
                 return (
-                  <li className="generation__person" key={idx}>
-                    {person.nameLatin.first} {person.nameLatin.family}
+                  <li className="generation__person" key={personIdx}>
+                    <span className="generation__person-index">
+                      {generationsKeyList[genIdx] + "; " + personIdx}
+                    </span>
+                    <p>
+                      {person.nameLatin.first} {person.nameLatin.family}
+                    </p>
                   </li>
                 );
               })}
