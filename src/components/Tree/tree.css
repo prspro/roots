@@ -30,3 +30,17 @@
 .tree__link--horizontal {
     stroke: #5b03ad;
 }
+
+.tree2 {
+    position: relative;
+    height: 700px;
+    width: 1000px;
+    border: 1px solid #000;
+}
+
+.node2 {
+    position: absolute;
+    border: 1px solid #000;
+    width: 60px;
+    height: 30px;
+}
