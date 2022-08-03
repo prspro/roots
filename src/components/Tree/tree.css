@@ -1,0 +1,32 @@
+.tree {
+    display: inline-block;
+    border: 3px solid #000;
+    border-radius: 15px;
+}
+
+.tree > svg {
+    /* line-height: 1; */
+    display: block;
+}
+
+.tree__node {
+    fill: #fff;
+    filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, .7));
+}
+
+.tree__node, .tree__node + * {
+    cursor: pointer;
+}
+
+.tree__link {
+    stroke-width: 3px;
+    fill: none;
+}
+
+.tree__link--vertical {
+    stroke: #003b00;
+}
+
+.tree__link--horizontal {
+    stroke: #5b03ad;
+}

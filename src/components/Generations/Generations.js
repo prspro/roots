@@ -1,6 +1,7 @@
 import React from "react";
 import useGenerations from "./useGenerations";
 import "./generation.css";
+import classNames from "classnames";
 
 const Generations = () => {
   const { generationsKeyList, generationsPersonList } = useGenerations();
@@ -13,7 +14,7 @@ const Generations = () => {
             <ul className="generation">
               {generation.map((person, personIdx) => {
                 return (
-                  <li className="generation__person" key={personIdx}>
+                  <li className={classNames("generation__person", {root: person.isRootPerson})}  key={personIdx}>
                     <span className="generation__person-index">
                       {generationsKeyList[genIdx] + "; " + personIdx}
                     </span>

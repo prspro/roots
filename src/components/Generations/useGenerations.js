@@ -1,4 +1,5 @@
 import { mainData } from "../../data/data";
+import arrayUnique from "array-unique";
 
 export default function useGenerations() {
   const prepData = mainData.map((entry) => {
@@ -16,6 +17,15 @@ export default function useGenerations() {
     //copy data
     let personDataList = dataArray.map((entry) => {
       return { ...entry };
+    });
+
+    //define root person
+    personDataList = personDataList.map((entry) => {
+      if (entry.id === personID) {
+        return { ...entry, isRootPerson: true };
+      } else {
+        return entry;
+      }
     });
 
     //define person index in data
@@ -107,10 +117,49 @@ export default function useGenerations() {
     return { generationsKeyList, generationsPersonList };
   };
 
-  const {generationsKeyList, generationsPersonList} = sortByGenerations(
+  const { generationsKeyList, generationsPersonList } = sortByGenerations(
     prepData,
     "bab9f1dd-f0a7-4434-bd32-11ad74b3b2db"
   );
+
+  const makeLinksArray = (dataArray) => {
+    //copy data
+    const generationsArray = dataArray.map((generation) => {
+      return [...generation.map((person) => {
+        return {...person};
+      })];
+    });
+
+    //! no multiple spouse
+    const findPersonSpouse = (person, personList, personGeneration) => {
+      const childrenList = findPersonChildren(person, personList, personGeneration);
+      const spouce = childrenList.reduce((previousValue, currentValue) => {
+        return previousValue.push(currentValue);
+      }, Array(0));
+      console.log(spouce);
+      return arrayUnique(spouce);
+    };
+
+    const findPersonChildren = (person, personList, personGeneration) => {
+      return personList[personGeneration+1].filter((child) => {
+        return child.parents.maman === person.id || child.parents.papa === person.id;
+      });
+    };
+
+    generationsArray.forEach((generation, generationIdx) => {
+      generation.forEach((person, personIdx) => {
+        if (generationIdx < generation.length) {
+          console.log(findPersonSpouse(person, generationsArray, generationIdx));
+        }
+      });
+    });
+
+    // console.log(generationsArray);
+  };
+
+  // makeLinksArray(generationsPersonList);
+
+  
 
   return {
     generationsKeyList,
