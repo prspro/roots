@@ -9,6 +9,10 @@ const useTree = () => {
     width: 120,
     height: 40,
     radius: 5,
+    scale: {
+      x: 1.1,
+      y: 1.3,
+    },
   };
 
   const midpoint = ([x1, y1], [x2, y2]) => {
@@ -55,10 +59,11 @@ const useTree = () => {
             const parent = personDataListCopy.find(
               (entry) => entry.id === parentID
             );
-            const parentPartner = personDataListCopy.find(entry => {
-              return entry.id === person.parents.find(
-                (partnerID) => partnerID !== parentID
-              )
+            const parentPartner = personDataListCopy.find((entry) => {
+              return (
+                entry.id ===
+                person.parents.find((partnerID) => partnerID !== parentID)
+              );
             });
             linkList.push({
               source: { id: parent.id, x: parent.x, y: parent.y },
@@ -74,7 +79,6 @@ const useTree = () => {
           const parent = personDataListCopy.find(
             (entry) => entry.id === person.parents[0]
           );
-          console.log(parent);
           linkList.push({
             source: { id: parent.id, x: parent.x, y: parent.y },
             midpoint: { id: parent.id, x: parent.x, y: parent.y },
@@ -87,12 +91,7 @@ const useTree = () => {
     return linkList;
   };
 
-  const setGraphData = (personList) => {
-    const nodeScale = {
-      x: 1.1,
-      y: 1.3,
-    };
-
+  const getGraphData = (personList) => {
     const edgeList = getEdgesData(personList);
 
     // Create a new directed graph
@@ -111,8 +110,8 @@ const useTree = () => {
       graph.setNode(entry.id, {
         label: entry.name,
         parents: entry.parents,
-        width: nodeDimensions.width * nodeScale.x,
-        height: nodeDimensions.height * nodeScale.y,
+        width: nodeDimensions.width * nodeDimensions.scale.x,
+        height: nodeDimensions.height * nodeDimensions.scale.y,
       });
     });
 
@@ -139,14 +138,12 @@ const useTree = () => {
   };
 
   const stepLine = (link) => {
-    const stepMultiplier = 1.5;
-
-    console.log((link.target.y - link.source.y) / 2);
-
-    return `M${link.source.x},${link.source.y}H${link.midpoint.x}V${link.source.y + (link.target.y - link.source.y) / 2 }H${link.target.x}V${link.target.y}`;
+    return `M${link.source.x},${link.source.y}H${link.midpoint.x}V${
+      link.source.y + (link.target.y - link.source.y) / 2
+    }H${link.target.x}V${link.target.y}`;
   };
 
-  const { nodeDataList, graphDimensions } = setGraphData(nodeList);
+  const { nodeDataList, graphDimensions } = getGraphData(nodeList);
 
   const linkList = getLinksData(nodeDataList);
 
